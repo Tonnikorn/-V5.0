@@ -8,9 +8,9 @@
 <title>คำนวณราคาเห็ดแดง</title>
 
 <!-- ✅ Favicon รูปเห็ดแดง -->
-<link rel="icon" type="image/png" href="red-mushroom.png" sizes="32x32">
-<link rel="apple-touch-icon" href="red-mushroom.png">
-<link rel="icon" type="image/png" sizes="192x192" href="red-mushroom.png">
+<link rel="icon" type="image/png" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png" sizes="32x32">
+<link rel="apple-touch-icon" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png">
+<link rel="icon" type="image/png" sizes="192x192" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png">
 
 <style>
 body {
