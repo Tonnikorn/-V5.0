@@ -166,9 +166,9 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const total = totalLarge + totalSmall + totalBloom;
 
     let resultText = '';
-    if (large > 0) resultText += `จี๋ใหญ่ ${large} กก. รวม ${totalLarge.toLocaleString()} บาท<br>`;
-    if (small > 0) resultText += `จี๋เล็ก ${small} กก. รวม ${totalSmall.toLocaleString()} บาท<br>`;
-    if (bloom > 0) resultText += `เห็ดบาน ${bloom} กก. รวม ${totalBloom.toLocaleString()} บาท<br>`;
+    if (large > 0) resultText += `จี๋ใหญ่ ${large} กก. เป็นเงิน ${totalLarge.toLocaleString()} บาท<br>`;
+    if (small > 0) resultText += `จี๋เล็ก ${small} กก. เป็นเงิน ${totalSmall.toLocaleString()} บาท<br>`;
+    if (bloom > 0) resultText += `เห็ดบาน ${bloom} กก. เป็นเงิน ${totalBloom.toLocaleString()} บาท<br>`;
 
     if (total > 0) {
         resultText += `<hr><strong>รวมทั้งหมด ${total.toLocaleString()} บาท</strong>`;
