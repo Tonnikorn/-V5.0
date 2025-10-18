@@ -16,7 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    touch-action: manipulation; /* ป้องกัน pinch zoom บนมือถือ */
+    touch-action: manipulation;
 }
 .container {
     width: 420px;
@@ -87,7 +87,7 @@ button:hover {
     margin-top: 30px;
     font-size: 26px;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     color: #1C6E8C;
     line-height: 1.8;
     background-color: #F0F8FF;
@@ -95,6 +95,16 @@ button:hover {
     border-radius: 15px;
     border: 2px solid #1C6E8C;
     box-shadow: inset 0 0 8px rgba(28,110,140,0.2);
+}
+.result hr {
+    border: none;
+    border-top: 2px solid #1C6E8C;
+    margin: 15px 0;
+}
+.result .total-line {
+    text-align: center;
+    color: #C1272D;
+    font-size: 28px;
 }
 #group-large { background-color: #FFE5E5; border-color: #FF9999; }
 #group-small { background-color: #E5FFE5; border-color: #99FF99; }
@@ -171,12 +181,28 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     if (bloom > 0) resultText += `เห็ดบาน ${bloom} กก. = ${totalBloom.toLocaleString()} บาท<br>`;
 
     if (total > 0) {
-        resultText += `<hr><strong>รวมทั้งหมด ${total.toLocaleString()} บาท</strong>`;
+        resultText += `<hr><div class="total-line">รวมทั้งหมด ${total.toLocaleString()} บาท</div>`;
     } else {
         resultText = `<span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>`;
     }
 
     document.getElementById('total').innerHTML = resultText;
+
+    // ✅ ส่งข้อมูลเข้า Google Sheet
+    const scriptURL = "https://docs.google.com/spreadsheets/d/1Ll6Hd7LzJZRoJQcF8rXA6R5AcO-AX09LgWtCiOnmzm4/edit?usp=sharing"; // 🔗 วาง URL ของ Apps Script ที่คุณได้มา
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            large: large,
+            small: small,
+            bloom: bloom,
+            total: total
+        })
+    })
+    .then(() => console.log("ส่งข้อมูลเข้า Google Sheet สำเร็จ"))
+    .catch(err => console.error("เกิดข้อผิดพลาด:", err));
 
     // ล้างค่า input หลังคำนวณ
     document.getElementById('largeWeight').value = '';
