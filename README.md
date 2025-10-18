@@ -1,5 +1,3 @@
-
-คุณพูดว่า:
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -178,14 +176,14 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const total = totalLarge + totalSmall + totalBloom;
 
     let resultText = '';
-    if (large > 0) resultText += จี๋ใหญ่ ${large} กก. = ${totalLarge.toLocaleString()} บาท<br>;
-    if (small > 0) resultText += จี๋เล็ก ${small} กก. = ${totalSmall.toLocaleString()} บาท<br>;
-    if (bloom > 0) resultText += เห็ดบาน ${bloom} กก. = ${totalBloom.toLocaleString()} บาท<br>;
+    if (large > 0) resultText += `จี๋ใหญ่ ${large} กก. = ${totalLarge.toLocaleString()} บาท<br>`;
+    if (small > 0) resultText += `จี๋เล็ก ${small} กก. = ${totalSmall.toLocaleString()} บาท<br>`;
+    if (bloom > 0) resultText += `เห็ดบาน ${bloom} กก. = ${totalBloom.toLocaleString()} บาท<br>`;
 
     if (total > 0) {
-        resultText += <hr><div class="total-line">รวมทั้งหมด ${total.toLocaleString()} บาท</div>;
+        resultText += `<hr><div class="total-line">รวมทั้งหมด ${total.toLocaleString()} บาท</div>`;
     } else {
-        resultText = <span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>;
+        resultText = `<span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>`;
     }
 
     document.getElementById('total').innerHTML = resultText;
