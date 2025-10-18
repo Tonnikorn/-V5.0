@@ -1,3 +1,5 @@
+
+คุณพูดว่า:
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -6,12 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>คำนวณราคาเห็ดแดง</title>
-
-<!-- ✅ Favicon รูปเห็ดแดง -->
-<link rel="icon" type="image/png" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png" sizes="32x32">
-<link rel="apple-touch-icon" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png">
-<link rel="icon" type="image/png" sizes="192x192" href="Gemini_Generated_Image_j9ny45j9ny45j9ny.png">
-
 <style>
 body {
     font-family: 'Arial', sans-serif;
@@ -182,10 +178,39 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const total = totalLarge + totalSmall + totalBloom;
 
     let resultText = '';
-    if (large > 0) resultText += `จี๋ใหญ่ ${large} กก. = ${totalLarge.toLocaleString()} บาท<br>`;
-    if (small > 0) resultText += `จี๋เล็ก ${small} กก. = ${totalSmall.toLocaleString()} บาท<br>`;
-    if (bloom > 0) resultText += `เห็ดบาน ${bloom} กก. = ${totalBloom.toLocaleString()} บาท<br>`;
+    if (large > 0) resultText += จี๋ใหญ่ ${large} กก. = ${totalLarge.toLocaleString()} บาท<br>;
+    if (small > 0) resultText += จี๋เล็ก ${small} กก. = ${totalSmall.toLocaleString()} บาท<br>;
+    if (bloom > 0) resultText += เห็ดบาน ${bloom} กก. = ${totalBloom.toLocaleString()} บาท<br>;
 
     if (total > 0) {
-        resultText += `<hr><div class="total-line">รวมทั้งหมด ${total.toLocaleString()} บาท</div>`;
-    } e
+        resultText += <hr><div class="total-line">รวมทั้งหมด ${total.toLocaleString()} บาท</div>;
+    } else {
+        resultText = <span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>;
+    }
+
+    document.getElementById('total').innerHTML = resultText;
+
+    // ✅ ส่งข้อมูลเข้า Google Sheet
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxBRMxefITgLlKgil0ojzs6lDVduALSbeAIWqpx0-zk579pMCdbeRmBLYxL6uhrVsVg/exec"; // 🔗 วาง URL ของ Apps Script ที่คุณได้มา
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            large: large,
+            small: small,
+            bloom: bloom,
+            total: total
+        })
+    })
+    .then(() => console.log("ส่งข้อมูลเข้า Google Sheet สำเร็จ"))
+    .catch(err => console.error("เกิดข้อผิดพลาด:", err));
+
+    // ล้างค่า input หลังคำนวณ
+    document.getElementById('largeWeight').value = '';
+    document.getElementById('smallWeight').value = '';
+    document.getElementById('bloomWeight').value = '';
+});
+</script>
+</body>
+</html>
