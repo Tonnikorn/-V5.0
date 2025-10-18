@@ -2,8 +2,10 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>คำนวณราคาเห็ดแดง</title>
+<!-- ✅ ป้องกันการย่อ/ขยายหน้าเว็บ -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>โปรแกรมคำนวณราคาเห็ดแดง</title>
 <style>
 body {
     font-family: 'Arial', sans-serif;
@@ -14,6 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    touch-action: manipulation; /* ป้องกัน pinch zoom บนมือถือ */
 }
 .container {
     width: 420px;
@@ -109,7 +112,7 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1>คิดราคาเห็ดแดง</h1>
+    <h1>โปรแกรมซื้อขายเห็ดแดง</h1>
 
     <div class="input-group" id="group-large">
         <label for="largeWeight">จี๋ใหญ่ (กิโลกรัม)</label>
@@ -131,7 +134,7 @@ button:hover {
 </div>
 
 <script>
-// อนุญาตเฉพาะตัวเลขและจุดทศนิยม
+// ✅ อนุญาตเฉพาะตัวเลขและจุดทศนิยม
 function allowNumericInput(elementId) {
     const input = document.getElementById(elementId);
     input.addEventListener('input', function() {
@@ -163,12 +166,12 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const total = totalLarge + totalSmall + totalBloom;
 
     let resultText = '';
-    if (large > 0) resultText += `จี๋ใหญ่  ${large} ก.ก คิดเป็นเงิน ${totalLarge.toLocaleString()} บาท<br>`;
-    if (small > 0) resultText += `จี๋เล็ก  ${small} ก.ก คิดเป็นเงิน ${totalSmall.toLocaleString()} บาท<br>`;
-    if (bloom > 0) resultText += `เห็ดบาน  ${bloom} ก.ก คิดเป็นเงิน ${totalBloom.toLocaleString()} บาท<br>`;
+    if (large > 0) resultText += `จี๋ใหญ่ หนัก ${large} กิโลกรัม คิดเป็นเงิน ${totalLarge.toLocaleString()} บาท<br>`;
+    if (small > 0) resultText += `จี๋เล็ก หนัก ${small} กิโลกรัม คิดเป็นเงิน ${totalSmall.toLocaleString()} บาท<br>`;
+    if (bloom > 0) resultText += `เห็ดบาน หนัก ${bloom} กิโลกรัม คิดเป็นเงิน ${totalBloom.toLocaleString()} บาท<br>`;
 
     if (total > 0) {
-        resultText += `<hr><strong>รวมทั้งหมด ${total.toLocaleString()} บาท</strong>`;
+        resultText += `<hr><strong>รวมทั้งหมด: ${total.toLocaleString()} บาท</strong>`;
     } else {
         resultText = `<span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>`;
     }
