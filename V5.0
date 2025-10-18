@@ -48,7 +48,7 @@ label {
     margin-bottom: 10px;
     text-align: center;
 }
-input[type="tel"] {
+input[type="text"] {
     width: 90%;
     padding: 14px;
     font-size: 24px;
@@ -57,7 +57,7 @@ input[type="tel"] {
     outline: none;
     text-align: center;
 }
-input[type="tel"]:focus {
+input:focus {
     border-color: #C1272D;
     box-shadow: 0 0 10px rgba(193, 39, 45, 0.3);
 }
@@ -82,11 +82,11 @@ button:hover {
 .result {
     width: 100%;
     margin-top: 30px;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     text-align: center;
     color: #1C6E8C;
-    line-height: 2;
+    line-height: 1.8;
     background-color: #F0F8FF;
     padding: 20px;
     border-radius: 15px;
@@ -101,7 +101,7 @@ button:hover {
     .container { width: 90%; padding: 20px; }
     h1 { font-size: 32px; margin-bottom: 25px; }
     label { font-size: 22px; }
-    input[type="tel"] { font-size: 22px; }
+    input { font-size: 22px; }
     button { font-size: 24px; }
     .result { font-size: 24px; }
 }
@@ -109,32 +109,43 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1>โปรแกรมซื้อขายเห็ดแดง</h1>
+    <h1>คิดราคาเห็ดแดง</h1>
+
     <div class="input-group" id="group-large">
         <label for="largeWeight">จี๋ใหญ่ (กิโลกรัม)</label>
-        <input type="tel" id="largeWeight" placeholder="กรอกน้ำหนัก" pattern="[0-9]*[.]?[0-9]*">
+        <input type="text" id="largeWeight" placeholder="กรอกน้ำหนัก" inputmode="decimal" pattern="[0-9]*">
     </div>
+
     <div class="input-group" id="group-small">
         <label for="smallWeight">จี๋เล็ก (กิโลกรัม)</label>
-        <input type="tel" id="smallWeight" placeholder="กรอกน้ำหนัก" pattern="[0-9]*[.]?[0-9]*">
+        <input type="text" id="smallWeight" placeholder="กรอกน้ำหนัก" inputmode="decimal" pattern="[0-9]*">
     </div>
+
     <div class="input-group" id="group-bloom">
         <label for="bloomWeight">เห็ดบาน (กิโลกรัม)</label>
-        <input type="tel" id="bloomWeight" placeholder="กรอกน้ำหนัก" pattern="[0-9]*[.]?[0-9]*">
+        <input type="text" id="bloomWeight" placeholder="กรอกน้ำหนัก" inputmode="decimal" pattern="[0-9]*">
     </div>
+
     <button type="button" id="calculateBtn">คำนวณราคา</button>
     <div class="result" id="total"></div>
 </div>
 
 <script>
+// อนุญาตเฉพาะตัวเลขและจุดทศนิยม
+function allowNumericInput(elementId) {
+    const input = document.getElementById(elementId);
+    input.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9.]/g, '');
+        if ((this.value.match(/\./g) || []).length > 1) {
+            this.value = this.value.slice(0, -1);
+        }
+    });
+}
+['largeWeight', 'smallWeight', 'bloomWeight'].forEach(allowNumericInput);
+
 function calculateWeight(inputId) {
     const input = document.getElementById(inputId).value || '0';
-    try {
-        const value = Function('"use strict"; return (' + input + ')')();
-        return Math.max(parseFloat(value) || 0, 0);
-    } catch {
-        return 0;
-    }
+    return Math.max(parseFloat(input) || 0, 0);
 }
 
 document.getElementById('calculateBtn').addEventListener('click', function() {
@@ -151,14 +162,20 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const totalBloom = bloom * priceBloom;
     const total = totalLarge + totalSmall + totalBloom;
 
-    document.getElementById('total').innerHTML = `
-        จี๋ใหญ่: ${totalLarge.toLocaleString()} บาท<br>
-        จี๋เล็ก: ${totalSmall.toLocaleString()} บาท<br>
-        เห็ดบาน: ${totalBloom.toLocaleString()} บาท<br>
-        <strong>จำนวนเงินทั้งหมด: ${total.toLocaleString()} บาท</strong>
-    `;
+    let resultText = '';
+    if (large > 0) resultText += `จี๋ใหญ่  ${large} ก.ก คิดเป็นเงิน ${totalLarge.toLocaleString()} บาท<br>`;
+    if (small > 0) resultText += `จี๋เล็ก  ${small} ก.ก คิดเป็นเงิน ${totalSmall.toLocaleString()} บาท<br>`;
+    if (bloom > 0) resultText += `เห็ดบาน  ${bloom} ก.ก คิดเป็นเงิน ${totalBloom.toLocaleString()} บาท<br>`;
 
-    // ล้างค่า
+    if (total > 0) {
+        resultText += `<hr><strong>รวมทั้งหมด ${total.toLocaleString()} บาท</strong>`;
+    } else {
+        resultText = `<span style="color:red;">กรุณากรอกน้ำหนักก่อนคำนวณ</span>`;
+    }
+
+    document.getElementById('total').innerHTML = resultText;
+
+    // ล้างค่า input หลังคำนวณ
     document.getElementById('largeWeight').value = '';
     document.getElementById('smallWeight').value = '';
     document.getElementById('bloomWeight').value = '';
